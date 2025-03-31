@@ -1,0 +1,26 @@
+services:
+
+  selenium:
+    image: selenium/standalone-chrome:134.0-20250303
+    container_name: ${CONTAINER_NAME}
+    shm_size: "${SHM_SIZE}"
+    restart: always
+    ports:
+      - "4444:4444"
+    environment:
+      SE_NODE_MAX_SESSIONS: "${SE_NODE_MAX_SESSIONS}"
+      SE_NODE_SESSION_TIMEOUT: "${SE_NODE_SESSION_TIMEOUT}"
+    networks:
+      - inema
+    deploy:
+      resources:
+        limits:
+          cpus: "${LIMIT_CPU}"
+          memory: "${LIMIT_MEM}"
+    networks:
+      - default
+
+networks:
+  default:
+    name: "${NETWORK}"
+    external: true
