@@ -28,8 +28,8 @@ else
         . ./.env 
         export $(grep --regexp ^[A-Z] .env | cut -d= -f1)
         docker network ls | grep ${NETWORK} || docker network create ${NETWORK}
-        docker stop ${CONTAINER_NAME}
-        docker rm ${CONTAINER_NAME}
+        docker ps -q --filter "name=${CONTAINER_NAME}" | xargs -r docker stop
+        docker ps -aq --filter "name=${CONTAINER_NAME}" | xargs -r docker rm -f
         docker compose --env-file .env --file ${compose_file} --compatibility up --detach --force-recreate --build --remove-orphans
     fi
 fi
